@@ -1,0 +1,6 @@
+[submodule "cadquery"]
+	path = cadquery
+	url = https://github.com/marcus7070/cadquery.git
+[submodule "CQ-editor"]
+	path = CQ-editor
+	url = https://github.com/marcus7070/CQ-editor.git
