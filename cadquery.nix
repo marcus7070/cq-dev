@@ -16,6 +16,11 @@
   , libGLU
   , libX11
   , six
+  , makeFontsConf
+  , freefont_ttf
+  , documentation ? false
+  , sphinx
+  , sphinx_rtd_theme
 }:
 
 let 
@@ -60,10 +65,23 @@ let
     ];
   };
 
+  sphinx-build = if documentation then
+    python.pkgs.sphinx.overrideAttrs (super: {
+      propagatedBuildInputs = super.propagatedBuildInputs ++ (with python.pkgs; [ sphinx_rtd_theme ]);
+      postFixup = super.postFixup or "" + ''
+        # Do not propagate Python
+        rm $out/nix-support/propagated-build-inputs
+      '';
+    })
+  else null;
+
+
 in
   buildPythonPackage rec {
     pname = "cadquery";
     version = "2.0RC0";
+
+    outputs = [ "out" "doc" ];
   
     # src = fetchFromGitHub {
     #   owner = "CadQuery";
@@ -74,17 +92,31 @@ in
 
     src = ./cadquery ;
   
+    nativeBuildInputs = lib.optional documentation [ sphinx sphinx_rtd_theme ];
+  
     buildInputs = [
       opencascade
-    ];
+    ]; 
   
     propagatedBuildInputs = [
       pyparsing
       pythonocc-core-cadquery
     ];
   
+    # If the user wants extra fonts, probably have to add them here
+    FONTCONFIG_FILE = makeFontsConf {
+      fontDirectories = [ freefont_ttf ];
+    };
+
     # Build errors on 2.7 and >=3.8 (officially only supports 3.6 and 3.7).
     disabled = !(isPy3k && (pythonOlder "3.8"));
+
+    # Documentation
+    postBuild = lib.optional documentation ''
+      PYTHONPATH=$PYTHONPATH:$(pwd)
+      ./build-docs.sh
+      cp -r target/docs $doc
+    '';
   
     meta = with lib; {
       description = "Parametric scripting language for creating and traversing CAD models";
