@@ -4,5 +4,5 @@ self: super: {
       cadquery = python-super.callPackage ./cadquery.nix { documentation = true; };
     };
   };
-  cq-editor = self.libsForQt5.callPackage ./cq-editor.nix { };
+  cq-editor = super.libsForQt5.callPackage ./cq-editor.nix { };
 }

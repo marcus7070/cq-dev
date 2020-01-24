@@ -67,7 +67,7 @@ let
 
   sphinx-build = if documentation then
     python.pkgs.sphinx.overrideAttrs (super: {
-      propagatedBuildInputs = super.propagatedBuildInputs ++ (with python.pkgs; [ sphinx_rtd_theme ]);
+      propagatedBuildInputs = super.propagatedBuildInputs or [] ++ [ python.pkgs.sphinx_rtd_theme ];
       postFixup = super.postFixup or "" + ''
         # Do not propagate Python
         rm $out/nix-support/propagated-build-inputs
@@ -81,7 +81,7 @@ in
     pname = "cadquery";
     version = "2.0RC0";
 
-    outputs = [ "out" "doc" ];
+    outputs = [ "out" ] ++ (lib.optional documentation "doc");
   
     # src = fetchFromGitHub {
     #   owner = "CadQuery";
@@ -92,7 +92,7 @@ in
 
     src = ./cadquery ;
   
-    nativeBuildInputs = lib.optional documentation [ sphinx sphinx_rtd_theme ];
+    nativeBuildInputs = lib.optionals documentation [ sphinx sphinx_rtd_theme ];
   
     buildInputs = [
       opencascade
@@ -112,11 +112,13 @@ in
     disabled = !(isPy3k && (pythonOlder "3.8"));
 
     # Documentation
-    postBuild = lib.optional documentation ''
+    postBuild = lib.optionalString documentation ''
       PYTHONPATH=$PYTHONPATH:$(pwd)
       ./build-docs.sh
+      mkdir -p $doc
       cp -r target/docs $doc
     '';
+    doCheck = false;
   
     meta = with lib; {
       description = "Parametric scripting language for creating and traversing CAD models";
