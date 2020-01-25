@@ -81,7 +81,7 @@ in
     pname = "cadquery";
     version = "2.0RC0";
 
-    outputs = [ "out" ] ++ (lib.optional documentation "doc");
+    outputs = [ "out" ] ++ lib.optional documentation "doc";
   
     # src = fetchFromGitHub {
     #   owner = "CadQuery";
@@ -113,12 +113,13 @@ in
 
     # Documentation
     postBuild = lib.optionalString documentation ''
-      PYTHONPATH=$PYTHONPATH:$(pwd)
-      ./build-docs.sh
-      mkdir -p $doc
-      cp -r target/docs $doc
+      PYTHONPATH=$PYTHONPATH:$(pwd) ./build-docs.sh
     '';
-    doCheck = false;
+
+    postInstall = lib.optionalString documentation ''
+      mkdir -p $out/share/doc
+      cp -r target/docs/* $out/share/doc
+    '';
   
     meta = with lib; {
       description = "Parametric scripting language for creating and traversing CAD models";
