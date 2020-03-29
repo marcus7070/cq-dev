@@ -13,6 +13,10 @@
 
 Feel free to change the CadQuery or CQ-editor source code. Just rerun `nix-build` when you are done. Nix should take a hash of the source code, and if it's changed it will rebuild it.
 
+## nix-shell
+
+Running nix-shell in this directory will pick up `shell.nix` and produce an environment with the cadquery package present. Then editors such as Vim with Python-language-server will pick up CadQuery and offer autocomplete and hinting etc.
+
 ## Tests
 
 Unfortunately PyQt5 isn't currently working in Nix, so CQ-editor's tests have been disabled.
