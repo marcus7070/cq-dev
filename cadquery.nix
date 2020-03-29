@@ -21,6 +21,7 @@
   , documentation ? false
   , sphinx
   , sphinx_rtd_theme
+  , pytest
 }:
 
 let 
@@ -111,8 +112,13 @@ in
     # Build errors on 2.7 and >=3.8 (officially only supports 3.6 and 3.7).
     disabled = !(isPy3k && (pythonOlder "3.8"));
 
-    # Documentation
-    postBuild = lib.optionalString documentation ''
+    checkInputs = [
+      pytest
+    ];
+    # doCheck = false;
+
+    # Documentation, very expensive so build after checkPhase
+    preInstall = lib.optionalString documentation ''
       PYTHONPATH=$PYTHONPATH:$(pwd) ./build-docs.sh
     '';
 
