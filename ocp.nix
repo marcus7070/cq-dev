@@ -14,6 +14,10 @@
   , jinja2
   , toposort
   , llvmPackages_9
+  , clang
+  , pyparsing
+  , pybind11
+  , cymbal
 
   # , pyparsing
   # , opencascade
@@ -63,6 +67,10 @@ buildPythonPackage rec {
     jinja2
     toposort
     llvmPackages_9.clang-unwrapped.python
+    clang
+    pyparsing
+    pybind11
+    cymbal
   ];
 
   buildInputs = [
