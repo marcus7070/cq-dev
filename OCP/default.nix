@@ -45,13 +45,13 @@ let
   # intermediate step, do pybind, cmake in the next step
   ocp-pybound = stdenv.mkDerivation rec {
     pname = "pybound-ocp";
-    version = "7.4-RC1";
+    version = "git-0059e42";
 
     src = fetchFromGitHub {
       owner = "CadQuery";
       repo = "OCP";
-      rev = version;
-      sha256 = "04qh9fdbs5bay0zrhb5qm512g06h3rb9rhh4dma8xv5hxybf68di";
+      rev = "0059e425875fb6fa3e8b3f0335c9d08924e6726c";
+      sha256 = "1h4m3y5k4chl1cdd0gy9vw0saf5vfwik0djgs64y1hfic9b4dgw1";
       fetchSubmodules = true;
     };
   

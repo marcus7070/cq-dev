@@ -77,12 +77,9 @@ in buildPythonPackage rec {
   checkInputs = [
     pytest
   ];
-  # doCheck = false;
-  # no idea what's going wrong with this test. The OCP function
-  # OCP.ShapeAnalysis.ShapeAnalysis_FreeBounds.ConnectEdgesToWires_s looks like
-  # it has the correct arguments passed in, but the output remains empty.
+
   checkPhase = ''
-    pytest -v -k "not testImportDXF"
+    pytest -v
   '';
 
   # Documentation, very expensive so build after checkPhase
