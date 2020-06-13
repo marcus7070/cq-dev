@@ -6,7 +6,7 @@
 
 mkDerivationWith python3Packages.buildPythonApplication {
   pname = "cq-editor";
-  version = "0.1RC1";
+  version = "local";
 
   src = ./CQ-editor;
 
