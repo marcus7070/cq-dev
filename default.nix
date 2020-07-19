@@ -6,6 +6,7 @@ let
     ];
   };
 
+<<<<<<< HEAD
 # in pkgs.cq-editor
 # in pkgs.python3Packages.ocp
 in [ pkgs.cq-editor pkgs.python37Packages.cadquery.doc ]

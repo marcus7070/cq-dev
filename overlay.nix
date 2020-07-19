@@ -1,5 +1,5 @@
 self: super: {
-  python3 = super.python3.override {
+  python37 = super.python37.override {
     packageOverrides = python-self: python-super: {
       cadquery = python-super.callPackage ./cadquery.nix { documentation = true; };
       ocp = python-super.callPackage ./OCP { };

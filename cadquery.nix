@@ -25,6 +25,7 @@
   , ocp
   , ezdxf
   , ipython
+  , typing-extensions
 }:
 
 let 
@@ -42,7 +43,7 @@ in buildPythonPackage rec {
   pname = "cadquery";
   version = "2.0RC0";
 
-  outputs = [ "out" ] ++ lib.optional documentation "doc";
+  outputs = [ "out" ] ++ lib.lists.optional documentation "doc";
 
   # src = fetchFromGitHub {
   #   owner = "CadQuery";
@@ -53,7 +54,7 @@ in buildPythonPackage rec {
 
   src = ./cadquery ;
 
-  nativeBuildInputs = lib.optionals documentation [ sphinx sphinx_rtd_theme ];
+  nativeBuildInputs = lib.lists.optionals documentation [ sphinx sphinx_rtd_theme ];
 
   # buildInputs = [
   #   opencascade
@@ -64,6 +65,7 @@ in buildPythonPackage rec {
     ocp
     ezdxf
     ipython
+    typing-extensions 
   ];
 
   # If the user wants extra fonts, probably have to add them here
@@ -84,6 +86,7 @@ in buildPythonPackage rec {
 
   # Documentation, very expensive so build after checkPhase
   preInstall = lib.optionalString documentation ''
+    echo "Building CadQuery docs"
     PYTHONPATH=$PYTHONPATH:$(pwd) ./build-docs.sh
   '';
 
