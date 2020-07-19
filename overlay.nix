@@ -5,6 +5,7 @@ self: super: {
       ocp = python-super.callPackage ./OCP { };
       clang = python-super.callPackage ./clang { };
       cymbal = python-super.callPackage ./cymbal { };
+      geomdl = python-super.callPackage ./geomdl { };
       ezdxf = python-super.callPackage ./ezdxf { };
       sphinx = python-super.callPackage ./sphinx { };
     };

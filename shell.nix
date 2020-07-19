@@ -8,6 +8,8 @@ let
 in
   pkgs.mkShell {
     buildInputs = [ 
-      pkgs.python3Packages.cadquery
+      pkgs.python37Packages.cadquery
+      pkgs.python37Packages.ezdxf
+      pkgs.python37Packages.matplotlib
     ];
   }
